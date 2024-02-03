@@ -1,8 +1,10 @@
-
+import Body from "./Components/Body";
 
 const App=()=>{
 return <>
-  <div className="text-3xl text-red-500">Hello</div>
+  <div>
+    <Body/>
+  </div>
 </>
 
 
