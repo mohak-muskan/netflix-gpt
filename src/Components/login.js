@@ -2,6 +2,8 @@ import Header from "./Header";
 import { Link } from "react-router-dom";
 import { useState, useRef } from "react";
 import { Validation } from "../Utils/Validation";
+import { createUserWithEmailAndPassword,signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../Utils/firebase";
 
 const Login = () => {
   const [isSignedIn, setIsSignedIn] = useState(true);
@@ -12,21 +14,52 @@ const Login = () => {
   const password = useRef();
   const [errorMessage, setErrorMessage] = useState(null);
   const handleClick = () => {
-    console.log((email.current.value))
-    if(email.current.value == "" && password.current.value==""){
-      setErrorMessage("Fill out the fields first")
+    if (email.current.value === "" && password.current.value === "") {
+      setErrorMessage("Fill out the fields first");
     }
-    if (email.current.value == "" && !password.current.value=="") {
+    if (email.current.value === "" && !password.current.value === "") {
       setErrorMessage("Email cannot be empty");
-      return;
     }
-    if (password.current.value == "" && !email.current.value==""){
+    if (password.current.value === "" && !email.current.value === "") {
       setErrorMessage("Password cannot be empty");
-      return;
     }
-    if (email.current.value && password.current.value){
+    if (email.current.value && password.current.value) {
       setErrorMessage(Validation(email.current.value, password.current.value));
-      return;
+      if (errorMessage) return;
+    }
+    if (!isSignedIn) {
+      //signup logic
+      createUserWithEmailAndPassword(auth, email.current.value, password.current.value)
+        .then((userCredential) => {
+          // Signed up
+          const user = userCredential.user;
+          // ...
+          console.log(user)
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          // ..
+          setErrorMessage(errorCode+"-"+errorMessage)
+          console.log(errorMessage)
+        });
+    } else {
+      //signin logic
+      signInWithEmailAndPassword(auth, email.current.value, password.current.value)
+  .then((userCredential) => {
+    // Signed in 
+    const user = userCredential.user;
+    // ...
+    console.log(user)
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    setErrorMessage(errorCode+"-"+errorMessage)
+    console.log(error)
+  });
+
+     
     }
   };
 
