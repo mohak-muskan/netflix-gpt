@@ -12,6 +12,9 @@
 - Create SignUp user Account
 - Implement SignIn in user Api
 - Created Redux with userSlice
+- Implemented Signout
+- Implemented navigate to browse on signIn/Up
+- Created Browse page
 
 # Features
 - Login/Sign Up

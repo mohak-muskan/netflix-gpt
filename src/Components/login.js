@@ -1,5 +1,5 @@
 import Header from "./Header";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState, useRef } from "react";
 import { Validation } from "../Utils/Validation";
 import { createUserWithEmailAndPassword,signInWithEmailAndPassword } from "firebase/auth";
@@ -13,6 +13,7 @@ const Login = () => {
   const email = useRef();
   const password = useRef();
   const [errorMessage, setErrorMessage] = useState(null);
+  const navigate=useNavigate();
   const handleClick = () => {
     if (email.current.value === "" && password.current.value === "") {
       setErrorMessage("Fill out the fields first");
@@ -35,6 +36,7 @@ const Login = () => {
           const user = userCredential.user;
           // ...
           console.log(user)
+          navigate("/browse")
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -51,6 +53,7 @@ const Login = () => {
     const user = userCredential.user;
     // ...
     console.log(user)
+    navigate("/browse")
   })
   .catch((error) => {
     const errorCode = error.code;
