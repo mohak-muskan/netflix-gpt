@@ -1,38 +1,39 @@
 import Header from "./Header";
 import { signOut } from "firebase/auth";
 import { auth } from "../Utils/firebase";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import useMovieAPI from "../Hooks/useMovieAPI";
+import Maincontainer from "./MainContainer";
+import SecondaryContainer from "./SecondaryContainer";
 
-const Browse=()=>{
-    const navigate=useNavigate();
-    
-const handleClick=()=>{
-    signOut(auth).then(() => {
+const Browse = () => {
+
+
+  const handleClick = () => {
+    signOut(auth)
+      .then(() => {
         // Sign-out successful.
-        navigate("/")
-        
-      }).catch((error) => {
+
+      })
+      .catch((error) => {
         // An error happened.
-        navigate("/error")
+
       });
-}
-return<>
-<Header className="z-10" /> {/* Assuming 'Header' is a component */}
-<div className="z-20 absolute top-0 right-4 flex items-center h-24">
-  <button
-    className="bg-red-600 text-white py-2 px-4 rounded"
-    onClick={handleClick}
-  >
-    Sign Out
-  </button>
-</div>
-</>
-
-
-
-
-
-
-}
+  };
+  useMovieAPI();
+  return (
+    <>
+      <Header className="z-10" /> {/* Assuming 'Header' is a component */}
+      <div className="z-20 absolute top-0 right-4 flex items-center h-24">
+        <button
+          className="bg-red-600 text-white py-2 px-4 rounded"
+          onClick={handleClick}
+        >
+          Sign Out
+        </button>
+      </div>
+      <Maincontainer/>
+      <SecondaryContainer/>
+    </>
+  );
+};
 export default Browse;
