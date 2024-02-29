@@ -4,6 +4,7 @@ import { auth } from "../Utils/firebase";
 import useMovieAPI from "../Hooks/useMovieAPI";
 import Maincontainer from "./MainContainer";
 import SecondaryContainer from "./SecondaryContainer";
+import useTopRatedMovies from "../Hooks/useTopRatedMovies";
 
 const Browse = () => {
 
@@ -20,6 +21,8 @@ const Browse = () => {
       });
   };
   useMovieAPI();
+  useTopRatedMovies();
+  
   return (
     <>
       <Header className="z-10" /> {/* Assuming 'Header' is a component */}
